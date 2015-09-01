@@ -1,5 +1,7 @@
 'use strict';
 
+var fs = require('fs');
+
 module.exports = function(app, io){
     app.get('/', function(req, res) {
         res.sendFile(app.get('cwd') + '/public/index.html');
@@ -16,11 +18,13 @@ module.exports = function(app, io){
         initMsg.forEach(function(m){
             sock.emit('init', m);
         });
+
         sock.on('msg', function(msg) {
             var result;
+            var outputFile = Math.random().toString().subStr(2, 10);
             var cmd = spawn('say', [msg]);
             cmd.stdout.on('data', function(data){
-                result = data;
+                fs.openSync(outputFile + '.tiff', 'w');
             });
 
             cmd.stderr.on('data', function(data){
