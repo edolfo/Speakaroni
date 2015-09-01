@@ -2,7 +2,7 @@
 /* global io */
 'use strict';
 
-var sock = io.connect('http://localhost:9000/speak');
+var sock = io.connect('http://10.1.10.154:9000/speak');
 var cmds = [];
 var ptr = 0;
 
@@ -56,10 +56,22 @@ $('#m').keyup(function(event) {
     }
 });
 
+/**
+ * Append the initialization message to the list shown above the chat input.
+ * Typically contains some instructions on use.
+ *
+ * @param  {String}     msg         The message to append
+ * @return {void}                   This function returns nothing
+ */
 sock.on('init', function(msg){
     $('#messages').append($('<li>').text(msg));
 });
 
+/**
+ * Append the chat message to the list shown above the chat input
+ * @param  {String}     msg         The message to append
+ * @return {void}                   This function returns nothing
+ */
 sock.on('msg', function(msg){
     $('#messages').append($('<li>').text(msg));
 });
